@@ -70,7 +70,7 @@ const Hero = () => {
             data-aos-duration="1000"
             data-aos-delay="400"
           >
-            Backend Developer | Problem Solver | Tech Enthusiast
+            Backend Developer | Problem Solver | Full Stack Enthusiast
           </p>
           <div
             className="cta-buttons"
