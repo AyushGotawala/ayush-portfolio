@@ -4,11 +4,16 @@
   "description": "backend For Peronal portfolio web site",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
   },
   "author": "Ayush Gotawala",
   "license": "ISC",
   "dependencies": {
-    "express": "^5.1.0"
+    "dotenv": "^17.2.0",
+    "express": "^5.1.0",
+    "express-validator": "^7.2.1",
+    "mongoose": "^8.16.3",
+    "nodemon": "^3.1.10"
   }
 }
