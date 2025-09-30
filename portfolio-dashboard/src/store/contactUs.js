@@ -1,13 +1,14 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const API_URL = `${import.meta.env.VITE_API_URL}/api/contactUs`;
+const API_URL = `${import.meta.env.VITE_API_URL}/auth/SignUp`;
 
 export const contactUs = createAsyncThunk(
   "portfolio/contactUs",
-  async (contactData, { rejectWithValue }) => {
+  async (userData, { rejectWithValue }) => {
     try {
-      const response = await axios.post(API_URL, contactData);
+      delete userData.confirmPassword;
+      const response = await axios.post(API_URL, userData);
       return response.data;
     } catch (error) {
       return rejectWithValue(
@@ -34,6 +35,7 @@ const contactUsSlice = createSlice({
       })
       .addCase(contactUs.fulfilled, (state, action) => {
         state.loading = false;
+        state.user = action.payload.user;
         state.message = action.payload.message;
       })
       .addCase(contactUs.rejected, (state, action) => {

@@ -518,6 +518,75 @@ body {
   font-family: "Orbitron", monospace;
 }
 
+/* Toast / popup notification styles */
+.toast {
+  position: fixed;
+  right: 20px;
+  bottom: 24px;
+  min-width: 320px;
+  max-width: calc(100% - 40px);
+  z-index: 12000;
+  opacity: 0;
+  transform: translateY(12px) scale(0.995);
+  transition: opacity 260ms cubic-bezier(.2,.9,.2,1), transform 260ms cubic-bezier(.2,.9,.2,1);
+  pointer-events: auto;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(2,6,23,0.12);
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.toast-body {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  padding: 0.8rem 1rem;
+}
+
+.toast-icon {
+  width: 40px;
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  font-size: 1.1rem;
+}
+
+.toast-text {
+  flex: 1;
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.toast-close {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  font-weight: 700;
+  cursor: pointer;
+  padding: 0.2rem 0.5rem;
+  border-radius: 6px;
+}
+
+.toast-success {
+  background: linear-gradient(90deg, rgba(0,255,136,0.06), rgba(0,102,255,0.04));
+  border: 1px solid rgba(0,255,136,0.12);
+}
+
+.toast-error {
+  background: linear-gradient(90deg, rgba(255,0,128,0.04), rgba(255,0,64,0.03));
+  border: 1px solid rgba(255,0,128,0.12);
+}
+
+@media (max-width: 480px) {
+  .toast { right: 12px; left: 12px; min-width: auto; }
+}
+
 .contact-form {
   display: flex;
   flex-direction: column;
