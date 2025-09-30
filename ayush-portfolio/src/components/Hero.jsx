@@ -1,4 +1,64 @@
+import { useState, useEffect } from 'react';
+
 const Hero = () => {
+  const [displayText, setDisplayText] = useState('');
+  const [currentPhase, setCurrentPhase] = useState(0);
+  const [isComplete, setIsComplete] = useState(false);
+  const [showCursor, setShowCursor] = useState(true);
+
+  const texts = [
+    "Ayush Gotawala",
+    "Backend Developer",
+    "Problem Solver", 
+    "Full Stack Enthusiast"
+  ];
+
+  useEffect(() => {
+    let timeoutId;
+    
+    const startTyping = () => {
+      if (currentPhase >= texts.length) {
+        setIsComplete(true);
+        setTimeout(() => setShowCursor(false), 2000);
+        return;
+      }
+
+      const currentText = texts[currentPhase];
+      let charIndex = 0;
+      
+      const typeCharacter = () => {
+        if (charIndex <= currentText.length) {
+          setDisplayText(currentText.slice(0, charIndex));
+          charIndex++;
+          timeoutId = setTimeout(typeCharacter, 100 + Math.random() * 50);
+        } else {
+          // Text complete, pause then move to next
+          timeoutId = setTimeout(() => {
+            if (currentPhase === 0) {
+              setCurrentPhase(1);
+              setDisplayText('');
+            } else if (currentPhase < texts.length - 1) {
+              setCurrentPhase(prev => prev + 1);
+              setDisplayText('');
+            } else {
+              setIsComplete(true);
+              setTimeout(() => setShowCursor(false), 2000);
+            }
+          }, currentPhase === 0 ? 1500 : 2000);
+        }
+      };
+
+      // Start typing after a delay
+      timeoutId = setTimeout(typeCharacter, currentPhase === 0 ? 1000 : 500);
+    };
+
+    startTyping();
+
+    return () => {
+      if (timeoutId) clearTimeout(timeoutId);
+    };
+  }, [currentPhase]);
+
   return (
     <>
       <section id="home" className="hero">
@@ -53,7 +113,11 @@ const Hero = () => {
           </svg>
         </div>
         <div className="hero-container">
-          <div className="hero-image" data-aos="zoom-in" data-aos-duration="1000">
+          <div
+            className="hero-image"
+            data-aos="zoom-in"
+            data-aos-duration="1000"
+          >
             <i className="fas fa-code"></i>
           </div>
           <h1
@@ -62,7 +126,15 @@ const Hero = () => {
             data-aos-duration="1000"
             data-aos-delay="200"
           >
-            Hi, I'm Ayush Gotawala
+            {currentPhase === 0 ? (
+              <>
+                Hi, I'm <span className="typing-text">{displayText}<span className="cursor">|</span></span>
+              </>
+            ) : (
+              <>
+                Hi, I'm <span className="typed-complete">Ayush Gotawala</span>
+              </>
+            )}
           </h1>
           <p
             className="hero-subtitle"
@@ -70,7 +142,11 @@ const Hero = () => {
             data-aos-duration="1000"
             data-aos-delay="400"
           >
-            Backend Developer | Problem Solver | Full Stack Enthusiast
+            {currentPhase > 0 && (
+              <span className="typing-text">
+                {displayText}{!isComplete && <span className="cursor">|</span>}
+              </span>
+            )}
           </p>
           <div
             className="cta-buttons"
