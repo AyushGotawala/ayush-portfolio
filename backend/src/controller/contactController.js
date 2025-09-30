@@ -1,6 +1,6 @@
-const Contact = require("../model/contact");
+import Contact from "../model/contact.js";
 
-const getContact = async(req,res,next) =>{
+export const getContact = async(req,res,next) =>{
     try{
         const contacts = await Contact.find();
         return res.status(200).json({
@@ -11,7 +11,7 @@ const getContact = async(req,res,next) =>{
     }   
 }
 
-const postContact = async(req,res,next) =>{
+export const postContact = async(req,res,next) =>{
     try{
         const {name,email,message} = req.body;
 
@@ -30,9 +30,4 @@ const postContact = async(req,res,next) =>{
     }catch(error){
         return res.status(500).json({message : error.message})
     }   
-}
-
-module.exports = {
-    getContact,
-    postContact
 }

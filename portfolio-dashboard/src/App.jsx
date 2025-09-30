@@ -46,6 +46,45 @@ function App() {
     localStorage.setItem('dashboard-theme', darkMode ? 'dark' : 'light');
   }, [darkMode]);
 
+  useEffect(() => {
+    // Scroll-reveal animations for elements with `.animate-on-scroll`
+    // Auto-target common dashboard elements so you don't need to add classes manually.
+    const animateElements = () => {
+      const selector = '.animate-on-scroll, .stat-card, .contact-card, .resume-card, .dashboard-header, .resume-header, .contact-header, .section-header';
+      const nodes = document.querySelectorAll(selector);
+      if (!nodes || nodes.length === 0) return null;
+
+      const observer = new IntersectionObserver((entries, obs) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in-view');
+            obs.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12 });
+
+      nodes.forEach((n) => {
+        // ensure consistent class usage and setup initial state
+        if (!n.classList.contains('animate-on-scroll')) {
+          n.classList.add('animate-on-scroll');
+        }
+        n.classList.add('pre-animate');
+        observer.observe(n);
+      });
+
+      return observer;
+    };
+
+    const obs = animateElements();
+    return () => {
+      try {
+        if (obs && obs.disconnect) obs.disconnect();
+      } catch (e) {
+        // ignore
+      }
+    };
+  }, [activeTab]);
+
   const renderContent = () => {
     switch (activeTab) {
       case 'dashboard':

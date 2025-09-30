@@ -1,19 +1,7 @@
-const express = require("express");
-const contactRoute = require("./routes/contactRouter");
-const app = express();
-const mongoose = require('mongoose');
-require('dotenv').config();
+import mongoose from 'mongoose';
+import app from "./src/app.js";
 const port = process.env.PORT || 3000;
 const localport = process.env.LOCAL_PORT;
-
-app.use(express.urlencoded({extended : true}));
-app.use(express.json());
-
-app.get('/',(req,res,next)=>{
-    res.send('Server is running on local network!');
-})
-
-app.use('/api',contactRoute);
 
 mongoose.connect(process.env.MONGO_URI).then(()=>{
     console.log('Mongo DB connectivity Done...');

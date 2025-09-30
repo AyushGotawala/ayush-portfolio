@@ -1,6 +1,6 @@
-const { body, validationResult } = require('express-validator');
+import { body, validationResult } from 'express-validator';
 
-const validateContact = [
+export const validateContact = [
     body('name')
         .trim()
         .notEmpty()
@@ -34,5 +34,3 @@ const validateContact = [
         next();
     }
 ];
-
-module.exports = validateContact;
